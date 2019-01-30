@@ -1,0 +1,130 @@
+
+
+1. Start a server:
+python -m SimpleHTTPServer 1213
+
+https://askubuntu.com/questions/377389/how-to-easily-start-a-webserver-in-any-folder
+
+
+put document in this server folder, then it will have a link to do test!!!
+
+
+
+=======server log:
+LMXMN033:git-developer jennifer.huang$ python -m SimpleHTTPServer 1213
+Serving HTTP on 0.0.0.0 port 1213 ...
+127.0.0.1 - - [28/Jan/2019 18:35:02] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [28/Jan/2019 18:35:03] code 404, message File not found
+127.0.0.1 - - [28/Jan/2019 18:35:03] "GET /favicon.ico HTTP/1.1" 404 -
+127.0.0.1 - - [28/Jan/2019 18:36:15] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [28/Jan/2019 18:36:21] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [28/Jan/2019 19:17:35] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [28/Jan/2019 19:17:44] "GET /test-1.html HTTP/1.1" 200 -
+
+
+
+
+
+==========================================
+2. Start a simple node server, to accept get/post request
+https://stackoverflow.com/questions/5725430/http-test-server-accepting-get-post-requests
+
+
+https://itnext.io/how-to-handle-the-post-request-body-in-node-js-without-using-a-framework-cd2038b93190
+
+
+
+
+https://stackoverflow.com/questions/16333790/node-js-quick-file-server-static-files-over-http
+
+
+$ node myapp.js
+
+
+
+
+const http = require("http");
+
+const hostname = "0.0.0.0";
+const port = 3000;
+
+const server = http.createServer((req, res) => {
+  console.log(`\n${req.method} ${req.url}`);
+  console.log(req.headers);
+
+  req.on("data", function(chunk) {
+    console.log("BODY: " + chunk);
+  });
+
+  res.statusCode = 200;
+  res.setHeader("Content-Type", "text/plain");
+  res.end("Hello World\n");
+});
+
+server.listen(port, hostname, () => {
+  console.log(`Server running at http://localhost:${port}/`);
+});
+Save it in a file 'echo.js' and run it as follows:
+
+$ node echo.js
+Server running at http://localhost:3000/
+You can then submit data:
+
+$ curl -d "[1,2,3]" -XPOST http://localhost:3000/foo/bar
+which will be shown in the server's stdout:
+
+POST /foo/bar
+{ host: 'localhost:3000',
+  'user-agent': 'curl/7.54.1',
+  accept: '*/*',
+  'content-length': '7',
+  'content-type': 'application/x-www-form-urlencoded' }
+BODY: [1,2,3]
+
+
+
+
+
+
+
+
+=======log:
+curl Client:
+LMXMN033:example2 jennifer.huang$ curl -d "[1,2,3]" -XPOST http://localhost:1213/foo/bar
+Hello World
+LMXMN033:example2 jennifer.huang$ curl  -XGET http://localhost:1213/foo/bar
+Hello World
+
+
+
+Server
+POST /foo/bar
+{ host: 'localhost:1213',
+  'user-agent': 'curl/7.54.0',
+  accept: '*/*',
+  'content-length': '7',
+  'content-type': 'application/x-www-form-urlencoded' }
+BODY: [1,2,3]
+
+GET /foo/bar
+{ host: 'localhost:1213',
+  'user-agent': 'curl/7.54.0',
+  accept: '*/*' }
+
+
+
+
+
+
+
+
+
+
+
+
+=========================================
+3.http server
+  https://github.com/indexzero/http-server
+
+
+
